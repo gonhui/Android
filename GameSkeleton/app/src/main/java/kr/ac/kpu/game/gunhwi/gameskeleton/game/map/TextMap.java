@@ -16,7 +16,7 @@ import kr.ac.kpu.game.gunhwi.gameskeleton.framework.obj.AnimObject;
 import kr.ac.kpu.game.gunhwi.gameskeleton.game.obj.CandyItem;
 import kr.ac.kpu.game.gunhwi.gameskeleton.game.obj.Obstacle;
 import kr.ac.kpu.game.gunhwi.gameskeleton.game.obj.Platform;
-import kr.ac.kpu.game.gunhwi.gameskeleton.game.scene.SecondScene;
+import kr.ac.kpu.game.gunhwi.gameskeleton.game.scene.InGameScene;
 
 public class TextMap {
     private final int blockSize;
@@ -69,23 +69,23 @@ public class TextMap {
     }
 
     private void createObject(char ch, float x, float y) {
-        SecondScene.Layer layer = SecondScene.Layer.item;
+        InGameScene.Layer layer = InGameScene.Layer.item;
         GameObject obj = null;
         switch (ch) {
             case '1': case '2': case '3': case '4':
-                layer = SecondScene.Layer.item;
+                layer = InGameScene.Layer.item;
                 obj = CandyItem.get(x, y, blockSize, blockSize, ch - '1');
                 break;
             case 'O': case 'P': case 'Q':
-                layer = SecondScene.Layer.platform;
+                layer = InGameScene.Layer.platform;
                 obj = Platform.get(x, y, blockSize, ch - 'O');
                 break;
             case 'x':
-                layer = SecondScene.Layer.obstacle;
+                layer = InGameScene.Layer.obstacle;
                 obj = new AnimObject(x + 3 * blockSize / 2, y + 3 * blockSize / 2, 3 * blockSize, 3 * blockSize, R.mipmap.fireball_128_24f, 2, 0);
                 break;
             case 'X': case 'Y': case 'Z':
-                layer = SecondScene.Layer.obstacle;
+                layer = InGameScene.Layer.obstacle;
                 obj = Obstacle.get(x, y, blockSize, ch - 'X');
                 break;
         }

@@ -10,7 +10,7 @@ import kr.ac.kpu.game.gunhwi.gameskeleton.framework.input.sensor.GyroSensor;
 import kr.ac.kpu.game.gunhwi.gameskeleton.framework.main.GameScene;
 import kr.ac.kpu.game.gunhwi.gameskeleton.framework.main.UiBridge;
 import kr.ac.kpu.game.gunhwi.gameskeleton.framework.view.GameView;
-import kr.ac.kpu.game.gunhwi.gameskeleton.game.scene.FirstScene;
+import kr.ac.kpu.game.gunhwi.gameskeleton.game.scene.LobbyScene;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -22,7 +22,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(new GameView(this));
 
-        new FirstScene().run();
+        new LobbyScene().run();
 
     }
 

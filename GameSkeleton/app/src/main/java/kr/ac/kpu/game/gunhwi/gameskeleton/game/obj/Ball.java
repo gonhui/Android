@@ -8,7 +8,7 @@ import kr.ac.kpu.game.gunhwi.gameskeleton.framework.obj.AnimObject;
 public class Ball extends AnimObject {
     protected float dx, dy;
     public Ball(float x, float y, float dx, float dy) {
-        super(x, y, 0, 0, R.mipmap.fireball_128_24f, 10, 0);
+        super(x, y, 0, 0, R.mipmap.ddong_128_3f, 10, 0);
         this.dx = dx;
         this.dy = dy;
     }

@@ -51,7 +51,7 @@ public class CandyItem extends BitmapObject implements Recyclable, BoxCollidable
     @Override
     public void update() {
         super.update();
-        if (x < -width) {
+        if (x < -height) {
             remove();
         }
     }

@@ -84,7 +84,7 @@ public class GameOverScene extends GameScene {
         button.setOnClickRunnable(new Runnable() {
             @Override
             public void run() {
-                SecondScene.get().restart();
+                InGameScene.get().restart();
                 pop();
             }
         });

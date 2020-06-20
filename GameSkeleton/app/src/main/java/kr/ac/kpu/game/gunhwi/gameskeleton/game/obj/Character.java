@@ -13,7 +13,7 @@ import kr.ac.kpu.game.gunhwi.gameskeleton.framework.main.GameTimer;
 import kr.ac.kpu.game.gunhwi.gameskeleton.framework.obj.AnimObject;
 import kr.ac.kpu.game.gunhwi.gameskeleton.framework.res.bitmap.FrameAnimationBitmap;
 import kr.ac.kpu.game.gunhwi.gameskeleton.framework.util.CollisionHelper;
-import kr.ac.kpu.game.gunhwi.gameskeleton.game.scene.SecondScene;
+import kr.ac.kpu.game.gunhwi.gameskeleton.game.scene.InGameScene;
 
 public class Character extends AnimObject implements BoxCollidable {
 
@@ -65,7 +65,7 @@ public class Character extends AnimObject implements BoxCollidable {
 
         switch (state) {
             case normal: fab = fabNormal; break;
-            case right:   fab = fabMoveR;   break;
+            case right:   fab = fabMoveR;  break;
             case left:  fab = fabMoveL;  break;
         }
     }
@@ -75,40 +75,11 @@ public class Character extends AnimObject implements BoxCollidable {
         if (jumpCount > 0) {
             float timeDiffSeconds = GameTimer.getTimeDiffSeconds();
             y += speed * timeDiffSeconds;
-            speed += GRAVITY_SPEED * timeDiffSeconds;
+           speed += GRAVITY_SPEED * timeDiffSeconds;
         }
 
-        SecondScene scene = SecondScene.get();
-        float footY = y + height / 2;
-        Platform platform = scene.getPlatformAt(x, footY);
-        if (platform != null) {
-
-            RectF rect = new RectF();
-            platform.getBox(rect);
-//            Log.d(TAG, "Platform box = " + rect);
-
-            float ptop = platform.getTop();
-            if (jumpCount > 0) {
-//                Log.d(TAG, "Platform box = " + rect + " footY = " + footY + " ptop=" + ptop);
-                if (speed > 0 && footY >= ptop) {
-//                    Log.d(TAG, " Stopping at the platform");
-                    y = ptop - height / 2;
-                    jumpCount = 0;
-                    speed = 0;
-                    setAnimState(AnimState.normal);
-                }
-            } else {
-                if (footY < ptop) {
-//                    Log.d(TAG, " Start to fall down");
-                    jumpCount = 10; // falling down
-                    stateTime = -1;
-                    setAnimState(AnimState.normal);
-                }
-            }
-        } else {
-//            Log.d(TAG, " No platform. Falling down");
-            jumpCount = 10;
-        }
+        InGameScene scene = InGameScene.get();
+//
 
         if (state == AnimState.right) {
             x+= 10;
@@ -131,7 +102,7 @@ public class Character extends AnimObject implements BoxCollidable {
 
     private void checkItemCollision() {
 
-        ArrayList<GameObject> items = SecondScene.get().getGameWorld().objectsAtLayer(SecondScene.Layer.item.ordinal());
+        ArrayList<GameObject> items = InGameScene.get().getGameWorld().objectsAtLayer(InGameScene.Layer.item.ordinal());
         for (GameObject obj : items) {
             if (!(obj instanceof CandyItem)) {
                 continue;
@@ -139,13 +110,13 @@ public class Character extends AnimObject implements BoxCollidable {
             CandyItem candy = (CandyItem) obj;
             if (CollisionHelper.collides(this, candy)) {
                 candy.remove();
-                SecondScene.get().addScore(candy.getScore());
+                InGameScene.get().addScore(candy.getScore());
             }
         }
     }
     private void checkObstacleCollision() {
 
-        ArrayList<GameObject> obstacles = SecondScene.get().getGameWorld().objectsAtLayer(SecondScene.Layer.obstacle.ordinal());
+        ArrayList<GameObject> obstacles = InGameScene.get().getGameWorld().objectsAtLayer(InGameScene.Layer.obstacle.ordinal());
         for (GameObject obj : obstacles) {
             if (!(obj instanceof Obstacle)) {
                 continue;
@@ -162,7 +133,7 @@ public class Character extends AnimObject implements BoxCollidable {
                 hitTime = HIT_TIME;
 
                 Log.d(TAG, "Collision: " + obstacle);
-                SecondScene.get().decreaseLife();
+                InGameScene.get().decreaseLife();
 //                int power = obstacle.getPower();
 //                decreaseLife(power);
             }
@@ -185,17 +156,6 @@ public class Character extends AnimObject implements BoxCollidable {
     public void getBox(RectF rect) {
         int hw = width / 2;
         int hh = height / 2;
-        if (fab == fabDie) {
-            rect.left = x - hw;
-            rect.top = y;
-            rect.right = x + hw;
-            rect.bottom = y + hh;
-        } else {
-            rect.left = x - hw;
-            rect.top = y - hh;
-            rect.right = x + hw;
-            rect.bottom = y + hh;
-        }
     }
 
     @Override
